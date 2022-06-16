@@ -7,22 +7,22 @@
     <title>popular song keys</title>
   </head>
   <body>
-    <!-- <img
-      src="/images/circle-of-keys.png"
-      style="position: absolute; opacity: 80%; filter:contrast(0.3);"
-      width="500"
-      height="500"
-    /> -->
-    <div
-      id="svg"
-    ></div>
+    <div id="svg">
+      <img
+        src="/images/circle3.png"
+        style="position: absolute"
+        width="500"
+        height="500"
+      />
+    </div>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script>
+      
       // set the dimensions and margins of the graph
       const margin = { top: 0, right: 0, bottom: 0, left: 0 },
         width = 500 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom,
-        innerRadius = 90,
+        innerRadius = 50,
         outerRadius = Math.min(width, height) / 2; // the outerRadius goes from the middle of the SVG area to the border
 
       // append the svg object
@@ -32,7 +32,7 @@
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .style("transform", "rotate(-15deg)")
-        .style("opacity", "100%")
+        .style("opacity", "40%")
 
         .append("g")
         .attr(
@@ -42,12 +42,12 @@
             "," +
             (height / 2 + margin.top) +
             ")"
-
         );
 
+        // -------------- LOOP --------------------- //
       d3.csv("/songs.csv").then((data) => {
         // X scale
-        var x = d3
+        const x = d3
           .scaleBand()
           .range([0, 2 * Math.PI]) // X axis goes from 0 to 2pi = all around the circle. If I stop at 1Pi, it will be around a half circle
           .align(0) // This does nothing ?
@@ -58,10 +58,10 @@
           ); // The domain of the X axis is the list of states.
 
         // Y scale
-        var y = d3
+        const y = d3
           .scaleRadial()
           .range([innerRadius, outerRadius]) // Domain will be define later.
-          .domain([0, 1000]); // Domain of Y is from 0 to the max seen in the data
+          .domain([0, 300]); // Domain of Y is from 0 to the max seen in the data
 
         // Add bars
         svg
@@ -85,10 +85,11 @@
               .endAngle(function (d) {
                 return x(d.key) + x.bandwidth();
               })
-              .padAngle(0.01)
+              // .padAngle(0.01)
               .padRadius(innerRadius)
           );
       });
+    
     </script>
   </body>
 </html>

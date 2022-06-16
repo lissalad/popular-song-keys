@@ -1,30 +1,38 @@
 const data = require("./songs.json");
 
 function getKeyCounts(data) {
-  let keyCount = {
+  let keyCounts = {
     "c": 0,
-    "cSharp": 0,
-    "d": 0,
-    "eFlat": 0,
-    "e": 0,
-    "f": 0,
-    "fSharp": 0,
     "g": 0,
-    "gSharp": 0,
+    "d": 0,
     "a": 0,
-    "bFlat": 0,
-    "b": 0
+    "e": 0,
+    "b": 0,
+    "f#": 0,
+    "db": 0,
+    "ab": 0,
+    "eb": 0,
+    "bb": 0,
+    "f": 0,
   };
-
+  
   let key;
+  const keySignatures = ["c", "db", "d", "eb", "e", "f", "f#", "g", "ab", "a", "bb", "b"];
 
   for(let song=0; song<data.length; song+=1) {
-    key = Object.keys(keyCount)[data[song]["key"]];
+    key = data[song]["key"];
     // console.log(key);
-    keyCount[key] += 1;
+    keyCounts[keySignatures[key]] += 1;
   }
 
-  return keyCount;
+  // for(let k=0; k<orderedCounts.length; k+=1) {
+  //   key = Object.keys(keyCount)[data[song]["key"]];
+    
+  // }
+
+return keyCounts;
+
+
 }
 
 console.log(getKeyCounts(data));

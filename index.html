@@ -13,10 +13,12 @@
       <h1 class="text-3xl">What are the most popular song keys?</h1>
       <h2 class="text-xl">Top 2000 Spotify Hits from 2000-2019</h2>
     </div>
-    <div class="p-4 relative" id="svg">
-      <img src="/images/circle.png" width="500" height="500" class="absolute" />
+    <div
+      class="bg-[url('/images/circle1.png')] bg-contain h-[500px] w-[500px]"
+      id="svg"
+    >
     </div>
-    <footer class="absolute bottom-8">
+    <footer class="fixed bottom-8">
       <p>
         data from
         <a
@@ -33,17 +35,20 @@
       const margin = { top: 0, right: 0, bottom: 0, left: 0 },
         width = 500 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom,
-        innerRadius = 50,
+        innerRadius = 0,
         outerRadius = Math.min(width, height) / 2; // the outerRadius goes from the middle of the SVG area to the border
 
       // append the svg object
       const svg = d3
         .select("#svg")
         .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
+        .attr("width",500)
+        .attr("height",500)
         .style("transform", "rotate(-15deg)")
         .style("opacity", "40%")
+        .style("position", "relative")
+        .style("left", "4px")
+        .style("top", "-16px")
 
         .append("g")
         .attr(
@@ -57,6 +62,12 @@
 
       // -------------- LOOP --------------------- //
       d3.csv("/songs.csv").then((data) => {
+        // Make a scale to set the color
+        const colorScale = d3
+          .scaleSequential()
+          .domain([0, data.length])
+          .interpolator(d3.interpolateRainbow);
+
         // X scale
         const x = d3
           .scaleBand()
@@ -72,7 +83,7 @@
         const y = d3
           .scaleRadial()
           .range([innerRadius, outerRadius]) // Domain will be define later.
-          .domain([0, 300]); // Domain of Y is from 0 to the max seen in the data
+          .domain([0, 500]); // Domain of Y is from 0 to the max seen in the data
 
         // Add bars
         svg
@@ -81,7 +92,7 @@
           .data(data)
           .enter()
           .append("path")
-          .attr("fill", "#69b3a2")
+          .attr('fill', (d, i) => colorScale(i)) // Use the color scale
           .attr(
             "d",
             d3
@@ -96,7 +107,7 @@
               .endAngle(function (d) {
                 return x(d.key) + x.bandwidth();
               })
-              // .padAngle(0.01)
+              .padAngle(0.04)
               .padRadius(innerRadius)
           );
       });

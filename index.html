@@ -4,20 +4,31 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>popular song keys</title>
   </head>
-  <body>
-    <div id="svg">
-      <img
-        src="/images/circle3.png"
-        style="position: absolute"
-        width="500"
-        height="500"
-      />
+
+  <body class="flex flex-col invisible w-full items-center md:p-16 md:visible">
+    <div class="flex flex-col items-center space-y-2 pb-5">
+      <h1 class="text-3xl">What are the most popular song keys?</h1>
+      <h2 class="text-xl">Top 2000 Spotify Hits from 2000-2019</h2>
     </div>
+    <div class="p-4 relative" id="svg">
+      <img src="/images/circle.png" width="500" height="500" class="absolute" />
+    </div>
+    <footer class="absolute bottom-8">
+      <p>
+        data from
+        <a
+          class="text-teal-600 font-bold"
+          href="https://www.kaggle.com/datasets/paradisejoy/top-hits-spotify-from-20002019"
+          >kaggle</a
+        >
+      </p>
+    </footer>
+
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script>
-      
       // set the dimensions and margins of the graph
       const margin = { top: 0, right: 0, bottom: 0, left: 0 },
         width = 500 - margin.left - margin.right,
@@ -44,7 +55,7 @@
             ")"
         );
 
-        // -------------- LOOP --------------------- //
+      // -------------- LOOP --------------------- //
       d3.csv("/songs.csv").then((data) => {
         // X scale
         const x = d3
@@ -89,7 +100,6 @@
               .padRadius(innerRadius)
           );
       });
-    
     </script>
   </body>
 </html>
